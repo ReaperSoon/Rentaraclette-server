@@ -1,4 +1,4 @@
-package fr.stevecohen.database;
+package fr.rentaraclette.database;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
-import fr.stevecohen.dto.ProfileDto;
+import fr.rentaraclette.dto.ProfileDto;
 
 public class Hibernate {
 	
@@ -30,7 +30,7 @@ public class Hibernate {
 		cfg.configure();
 		serviceRegistry = new ServiceRegistryBuilder().applySettings(cfg.getProperties()).buildServiceRegistry();
 		sessionFactory = cfg
-        .addPackage("fr.stevecohen.dto")
+        .addPackage("fr.rentaraclette.dto")
         .addAnnotatedClass(ProfileDto.class)
         .buildSessionFactory(serviceRegistry);
 	}

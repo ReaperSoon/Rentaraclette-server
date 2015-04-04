@@ -1,4 +1,4 @@
-package fr.stevecohen.services;
+package fr.rentaraclette.services;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import fr.stevecohen.dao.ProfileDao;
-import fr.stevecohen.dto.ProfileDto;
-import fr.stevecohen.rpc.RemoteService;
+import fr.rentaraclette.dao.ProfileDao;
+import fr.rentaraclette.dto.ProfileDto;
+import fr.rentaraclette.rpc.RemoteService;
 
 public class ProfileService extends AbstractService {
 	

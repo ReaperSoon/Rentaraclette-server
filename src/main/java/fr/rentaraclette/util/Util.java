@@ -1,4 +1,4 @@
-package fr.stevecohen.util;
+package fr.rentaraclette.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

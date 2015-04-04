@@ -1,6 +1,6 @@
-package fr.stevecohen.dao;
+package fr.rentaraclette.dao;
 
-import fr.stevecohen.database.Hibernate;
+import fr.rentaraclette.database.Hibernate;
 
 public class AbstractDao {
 	protected Hibernate hibernate = Hibernate.getInstance();

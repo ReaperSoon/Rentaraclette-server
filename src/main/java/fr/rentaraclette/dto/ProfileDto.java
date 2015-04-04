@@ -1,4 +1,4 @@
-package fr.stevecohen.dto;
+package fr.rentaraclette.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,4 +1,4 @@
-package fr.stevecohen.rpc;
+package fr.rentaraclette.rpc;
 
 public class ServiceException extends RuntimeException {
 

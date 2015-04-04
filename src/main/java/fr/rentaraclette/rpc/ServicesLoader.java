@@ -1,4 +1,4 @@
-package fr.stevecohen.rpc;
+package fr.rentaraclette.rpc;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -18,9 +18,9 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
-import fr.stevecohen.database.Hibernate;
-import fr.stevecohen.services.AbstractService;
-import fr.stevecohen.util.Logger;
+import fr.rentaraclette.database.Hibernate;
+import fr.rentaraclette.services.AbstractService;
+import fr.rentaraclette.util.Logger;
 
 public class ServicesLoader extends Thread implements javax.servlet.ServletContextListener {
 

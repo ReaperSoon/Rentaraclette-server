@@ -1,4 +1,4 @@
-package fr.stevecohen.dao;
+package fr.rentaraclette.dao;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
-import fr.stevecohen.dto.ProfileDto;
+import fr.rentaraclette.dto.ProfileDto;
 
 @SuppressWarnings("unchecked")
 public class ProfileDao extends AbstractDao {

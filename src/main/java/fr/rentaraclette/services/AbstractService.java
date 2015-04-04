@@ -1,4 +1,4 @@
-package fr.stevecohen.services;
+package fr.rentaraclette.services;
 
 public abstract class AbstractService {
 	

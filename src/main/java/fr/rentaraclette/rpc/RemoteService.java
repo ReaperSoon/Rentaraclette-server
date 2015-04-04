@@ -1,4 +1,4 @@
-package fr.stevecohen.rpc;
+package fr.rentaraclette.rpc;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

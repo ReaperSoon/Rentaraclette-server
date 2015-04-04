@@ -1,12 +1,5 @@
 {
-	"MYSQL" : {
-		"HOST" : "127.0.0.1",
-		"PORT" : "3306",
-		"DATABASE" : "towatchlist",
-		"USER" : "root",
-		"PASSWORD" : ""
-	},
 	"PROJECT" : {
-		"SERVICES.PACKAGE" : "fr.stevecohen.services"
+		"SERVICES.PACKAGE" : "fr.rentaraclette.services"
 	}
 }

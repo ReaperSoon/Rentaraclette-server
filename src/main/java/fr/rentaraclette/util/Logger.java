@@ -1,4 +1,4 @@
-package fr.stevecohen.util;
+package fr.rentaraclette.util;
 
 public class Logger {
 	

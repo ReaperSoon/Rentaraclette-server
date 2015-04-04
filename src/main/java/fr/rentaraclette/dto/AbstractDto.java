@@ -1,4 +1,4 @@
-package fr.stevecohen.dto;
+package fr.rentaraclette.dto;
 
 
 public class AbstractDto {

@@ -1,4 +1,4 @@
-package fr.stevecohen.servlets;
+package fr.rentaraclette.servlets;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import fr.stevecohen.rpc.RpcObject;
-import fr.stevecohen.rpc.ServiceException;
-import fr.stevecohen.rpc.ServicesLoader;
-import fr.stevecohen.services.AbstractService;
-import fr.stevecohen.util.Logger;
+import fr.rentaraclette.rpc.RpcObject;
+import fr.rentaraclette.rpc.ServiceException;
+import fr.rentaraclette.rpc.ServicesLoader;
+import fr.rentaraclette.services.AbstractService;
+import fr.rentaraclette.util.Logger;
 
 /**
  * Servlet implementation class Services

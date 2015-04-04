@@ -13,9 +13,9 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 	<listener>
-		<listener-class>fr.stevecohen.rpc.ServicesLoader</listener-class>
+		<listener-class>fr.rentaraclette.rpc.ServicesLoader</listener-class>
 	</listener>
 	<listener>
-		<listener-class>fr.stevecohen.servlets.Services</listener-class>
+		<listener-class>fr.rentaraclette.servlets.Services</listener-class>
 	</listener>
 </web-app>

@@ -1,8 +1,8 @@
-package fr.stevecohen.rpc;
+package fr.rentaraclette.rpc;
 
 import java.lang.reflect.Method;
 
-import fr.stevecohen.services.AbstractService;
+import fr.rentaraclette.services.AbstractService;
 
 public class RpcObject {
 	private AbstractService service;

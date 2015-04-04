@@ -1,4 +1,4 @@
-package fr.stevecohen.services;
+package fr.rentaraclette.services;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
