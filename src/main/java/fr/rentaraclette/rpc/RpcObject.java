@@ -5,8 +5,8 @@ import java.lang.reflect.Method;
 import fr.rentaraclette.services.AbstractService;
 
 public class RpcObject {
-	private AbstractService service;
-	private Method method;
+	private AbstractService service; //The service class
+	private Method method; //The method representing the service
 	
 	public RpcObject(AbstractService service, Method method) {
 		this.service = service;

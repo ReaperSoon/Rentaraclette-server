@@ -19,12 +19,14 @@ public class SecurityService extends AbstractService {
 		return instance;
 	}
 
+	/* Generate a random String to use it as salt */
 	public String generateSalt() {
 		String salt = UUID.randomUUID().toString().replaceAll("-", "");
 		
 		return salt;
 	}
 
+	/* Generate MD5 hash from a String */
 	public String md5(String input) {
 		String md5 = null;
 

@@ -1,47 +1,42 @@
 package fr.rentaraclette.database;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
-import fr.rentaraclette.dto.ProfileDto;
+import fr.rentaraclette.dto.ExamlpleDto;
 
-public class Hibernate {
+public class DatabaseInitializer {
 	
-	private static Hibernate		instance = null;
+	private static DatabaseInitializer		instance = null;
 	
 	private SessionFactory			sessionFactory;
 	private ServiceRegistry 		serviceRegistry;
 
-	private Hibernate() {
+	private DatabaseInitializer() {
 		setUpFactory();
 	}
 	
-	public static Hibernate getInstance() {
+	public static DatabaseInitializer getInstance() {
 		if (instance == null)
-			instance = new Hibernate();
+			instance = new DatabaseInitializer();
 		return instance;
 	}
 	
+	/* 
+	 * Setting the factory (give the package where to find the DTOs and the classes
+	 * YOU NEED TO ADD ALL YOUR NEW DTO WITH .addAnnotatedClass(NewDto.class)
+	 */
 	public void setUpFactory() {
 		Configuration cfg = new Configuration();
 		cfg.configure();
 		serviceRegistry = new ServiceRegistryBuilder().applySettings(cfg.getProperties()).buildServiceRegistry();
 		sessionFactory = cfg
         .addPackage("fr.rentaraclette.dto")
-        .addAnnotatedClass(ProfileDto.class)
+        .addAnnotatedClass(ExamlpleDto.class)
+        // add other DTO here
         .buildSessionFactory(serviceRegistry);
-	}
-	
-	public boolean isConnected() {
-		Session session = sessionFactory.openSession();
-		boolean connected = session.isConnected();
-		session.close();
-		if (connected)
-			return true;
-		return false;
 	}
 	
 	public SessionFactory getSessionFactory() {

@@ -29,9 +29,6 @@ public class Services extends HttpServlet implements javax.servlet.ServletContex
 	private static final long 	serialVersionUID = 1L;
 	private ServicesLoader 		servicesLoader = ServicesLoader.getInstance();
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	public Services() {
 		super();
 	}
@@ -40,53 +37,64 @@ public class Services extends HttpServlet implements javax.servlet.ServletContex
 		Logger.info("ServiceAPI is ready!");
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//For page direct access, write on response.getWriter();
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* Setting response context */
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
+		
+		/* Get the request arguments (http://mywebsite.com/services/<className>/<functionName>) */
 		String[] args = request.getRequestURI().substring(request.getContextPath().length()+1).split("/");
 		
+		/* Check if there is almost 3 arguments (services/<className>/<functionName>) */
 		if (args.length >= 3) {
 			String className = args[1];
 			String methodeName = args[2];
-			
 			Logger.log(Logger.LOG, getClientIpAddr(request) + " ask for service " + className + "." + methodeName);
 			
 			try {
-				/* Lecture JSON */
-				StringBuffer jb = new StringBuffer();
-				String line = null;
-				BufferedReader reader = request.getReader();
-				while ((line = reader.readLine()) != null)
-					jb.append(line);
+				/* Reading the received text from request */
+				String received = getReceivedText(request);
 				
-				/* Creation argument avec JSON */
-				JSONArray obj = new JSONArray(jb.toString());
+				/* Create Object[] to give to the invoked method as argument (Object[] class is mandatoty by the fucking invoke method) */
+				JSONArray obj = new JSONArray(received);
 				Object[] serviceArgs = new Object[1];
 				serviceArgs[0] = obj;
 				
+				/* 
+				 * Get the RpcObject representing the service in the serviceLoader (get it with the key "className.methodName") 
+				 * The RpcObject contains the service class as AbstractService and the Function of the specific service
+				 */
 				RpcObject serviceRpc = servicesLoader.getServices().get((className + "." + methodeName).toLowerCase());
+				
+				/* If the service does not exist */
 				if (serviceRpc == null)
 					throw new ServiceException("Service not found : " + className + "." + methodeName);
+				
+				/* Extract the AbstractService and the Method from the RpcObject */
 				AbstractService service = serviceRpc.getService();
 				Method method = service.getClass().getMethod(methodeName, JSONArray.class);
+				
+				/* Invoke the service and get the result (Usualy a JSONObject or null) */
 				Object invokeResult = method.invoke(service, serviceArgs);
+				
+				/* Build the JSONObject for the response */
 				JSONObject ret = new JSONObject();
+				
+				/* If the result if not null put it on the JSONObject for the response with the key "success" */
 				if (invokeResult != null) {
 					ret.put("success", invokeResult);
 					out.print(ret.toString());
+				/* If response is null, just put "success" at the key "success" */
 				}else {
 					ret.put("success", "success");
 					out.print(ret.toString());
 				}
+				
+				/* Flush the response */
 				out.flush();
 			} catch (ServiceException e) {
 				out.println("{\"error\":{\"message\":\"" + e.getMessage() + "\"}}");
@@ -97,6 +105,24 @@ public class Services extends HttpServlet implements javax.servlet.ServletContex
 			}
 		}
 	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return The text given by the client witch call the servlet
+	 * @throws IOException
+	 */
+	private String getReceivedText(HttpServletRequest request) throws IOException {
+		StringBuffer jb = new StringBuffer();
+		String line = null;
+		BufferedReader reader = request.getReader();
+		while ((line = reader.readLine()) != null)
+			jb.append(line);
+		
+		return jb.toString();
+	}
+
+	/* Get the client IP address in the request header */
 	public String getClientIpAddr(HttpServletRequest request) {  
 		String ip = request.getHeader("X-Forwarded-For");  
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  

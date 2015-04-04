@@ -18,7 +18,6 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
-import fr.rentaraclette.database.Hibernate;
 import fr.rentaraclette.services.AbstractService;
 import fr.rentaraclette.util.Logger;
 
@@ -41,12 +40,14 @@ public class ServicesLoader extends Thread implements javax.servlet.ServletConte
 			}
 		return instance;
 	}
-	
+
 	@Override
 	public void run() {
+		/* Load all service in Thread to allow Tomcat to start faster */
 		loadServices();
 	}
-	
+
+	/* Get the package where to find all services classes */
 	public String getServicesPackage() {
 		JSONTokener tokener;
 		String mypackage = null;
@@ -62,51 +63,43 @@ public class ServicesLoader extends Thread implements javax.servlet.ServletConte
 	}
 
 	public void loadServices() {
-		boolean databaseInitialized = setupHibernate();
-		if (databaseInitialized) {
-			services = new HashMap<String, RpcObject>();
-			List<ClassLoader> classLoadersList = new LinkedList<ClassLoader>();
-			classLoadersList.add(ClasspathHelper.contextClassLoader());
-			classLoadersList.add(ClasspathHelper.staticClassLoader());
-			Reflections reflections = new Reflections(new ConfigurationBuilder()
-			.setScanners(new SubTypesScanner(false), new ResourcesScanner())
-			.setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])))
-			.filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(getServicesPackage()))));
+		/* Build the RpcObject map with key "className.functionName" */
+		services = new HashMap<String, RpcObject>();
+		
+		/* Use reflection to get a Set of Class that extends of AbstractService class */
+		List<ClassLoader> classLoadersList = new LinkedList<ClassLoader>();
+		classLoadersList.add(ClasspathHelper.contextClassLoader());
+		classLoadersList.add(ClasspathHelper.staticClassLoader());
+		Reflections reflections = new Reflections(new ConfigurationBuilder()
+		.setScanners(new SubTypesScanner(false), new ResourcesScanner())
+		.setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])))
+		.filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(getServicesPackage()))));
 
-			Set<Class<? extends AbstractService>> allClasses = reflections.getSubTypesOf(AbstractService.class);
-			Logger.log(Logger.INFO, "Loading services : ");
-			Long start = System.currentTimeMillis();
-			try {
-				for (Class<? extends AbstractService> klass : allClasses) {
-					Method[] methodes = klass.getMethods();
-					AbstractService instance = klass.newInstance();
-					for (Method method : methodes) {
-						if (method.isAnnotationPresent(RemoteService.class)) {
-							services.put((klass.getSimpleName() + "." + method.getName()).toLowerCase(), new RpcObject(instance, method));
-							Logger.log(Logger.INFO, klass.getSimpleName() + "." + method.getName());
-						}
+		Set<Class<? extends AbstractService>> allClasses = reflections.getSubTypesOf(AbstractService.class);
+		Logger.log(Logger.INFO, "Loading services : ");
+
+		/* Start looping in all classes to find all 'RemoteService' inside */
+		Long start = System.currentTimeMillis();
+		try {
+			for (Class<? extends AbstractService> klass : allClasses) {
+				/* For all classes extending AbstractService */
+				Method[] methodes = klass.getMethods(); // Get all methods of the class
+				AbstractService instance = klass.newInstance(); // Create a new instance of the class (cannot use 'new' because of using AbstractService to represent the service instead of the classname)
+				
+				/* For all methods of each class extending AbstractService */
+				for (Method method : methodes) {
+					/* Check if the method is annoted with the '@RemoteService' (if not the service will be use only localy, not by clients) */
+					if (method.isAnnotationPresent(RemoteService.class)) {
+						services.put((klass.getSimpleName() + "." + method.getName()).toLowerCase(), new RpcObject(instance, method));
+						Logger.log(Logger.INFO, klass.getSimpleName() + "." + method.getName());
 					}
 				}
-				Long elapsed = System.currentTimeMillis() - start;
-				Logger.log(Logger.INFO, "Loaded " + services.size() + " service in " + elapsed + "ms");
-			} catch (InstantiationException | IllegalAccessException e) {
-				e.printStackTrace();
 			}
+			Long elapsed = System.currentTimeMillis() - start;
+			Logger.log(Logger.INFO, "Loaded " + services.size() + " service in " + elapsed + "ms");
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
 		}
-	}
-
-	public boolean setupHibernate() {
-		int loop = 1;
-		while (!Hibernate.getInstance().isConnected()) {
-			Logger.log(Logger.ERROR, "Database connexion fail! Trying again in 5 seconds... (try " + loop + ")");
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		Logger.log(Logger.INFO, "Database connected successfully");
-		return true;
 	}
 
 	public HashMap<String, RpcObject> getServices() {

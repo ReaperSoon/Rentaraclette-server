@@ -1,7 +1,7 @@
 package fr.rentaraclette.dao;
 
-import fr.rentaraclette.database.Hibernate;
+import fr.rentaraclette.database.DatabaseInitializer;
 
 public class AbstractDao {
-	protected Hibernate hibernate = Hibernate.getInstance();
+	protected DatabaseInitializer hibernate = DatabaseInitializer.getInstance();
 }
