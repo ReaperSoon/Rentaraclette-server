@@ -16,19 +16,19 @@ import org.json.JSONObject;
  */
 @Entity
 @Table(name="examples")
-public class ExamlpleDto extends AbstractDto {
+public class ExampleDto extends AbstractDto {
 
 	private int				id;
 	
 	private String 			name;
 	
 	/* Public constructor is used by Hibernate to build empty instance and fill it with setters */
-	public ExamlpleDto() {
+	public ExampleDto() {
 		
 	}
 	
 	/* This constructor is used to build a DTO from it JSON representation (e.g: received by a the client calling 'create' service */
-	public ExamlpleDto(JSONObject obj) throws JSONException {
+	public ExampleDto(JSONObject obj) throws JSONException {
 		if (obj.has("id"))
 			setId(obj.getInt("id"));
 		setName(obj.getString("name"));

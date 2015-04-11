@@ -7,7 +7,7 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
-import fr.rentaraclette.dto.ExamlpleDto;
+import fr.rentaraclette.dto.ExampleDto;
 
 @SuppressWarnings("unchecked")
 public class ExampleDao extends AbstractDao {
@@ -24,7 +24,7 @@ public class ExampleDao extends AbstractDao {
 	}
 
 	/* Create a database object from DTO */
-	public ExamlpleDto create(ExamlpleDto exampleDto) {
+	public ExampleDto create(ExampleDto exampleDto) {
 		Session session = hibernate.getSessionFactory().openSession(); // Get the hibernate session factory to operate in database
 		session.beginTransaction(); // Start a transaction (all changes will be done after commiting in the transaction)
 		int id = Integer.valueOf(session.save(exampleDto).toString()); // Call the 'save' Hibernate function that return a Serializable representing the generating id
@@ -37,7 +37,7 @@ public class ExampleDao extends AbstractDao {
 		return exampleDto;
 	}
 	
-	public ExamlpleDto update(ExamlpleDto exampleDto) {
+	public ExampleDto update(ExampleDto exampleDto) {
 		Session session = hibernate.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.update(exampleDto); // Call the 'update' function from Hibernate giving the DTO and the magic will be done (update the object using the unique id)
@@ -47,40 +47,40 @@ public class ExampleDao extends AbstractDao {
 		return exampleDto;
 	}
 	
-	public List<ExamlpleDto> selectAll() {
+	public List<ExampleDto> selectAll() {
 		Session session = hibernate.getSessionFactory().openSession();
 		session.beginTransaction();
 		/* session.createQuery(String) is usefull to create custom query using HQL (go google)*/
-		List<ExamlpleDto> result = session.createQuery("from ProfileDto").list(); // Get all objects in database that return a list of Object casted in ExampleDTO
+		List<ExampleDto> result = session.createQuery("from ProfileDto").list(); // Get all objects in database that return a list of Object casted in ExampleDTO
 		session.getTransaction().commit();
 		session.close();
 		
 		return result;
 	}
 	
-	public List<ExamlpleDto> selectByName(String name) {
+	public List<ExampleDto> selectByName(String name) {
 		Session session = hibernate.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session.createQuery("from ProfileDto WHERE name LIKE :name"); // Use of variable for security and string validation
 		query.setParameter("name", '%' + name + '%'); //Replace the ':name' by '%theName%' the name variable is checked and all invalid caracters are escaped
-		List<ExamlpleDto> result = query.list();
+		List<ExampleDto> result = query.list();
 		session.getTransaction().commit();
 		session.close();
 		
 		return result;
 	}
 	
-	public ExamlpleDto selectById(int id) {
+	public ExampleDto selectById(int id) {
 		Session session = hibernate.getSessionFactory().openSession();
 		session.beginTransaction();
-		ExamlpleDto profile = (ExamlpleDto)session.get(ExamlpleDto.class, id); // Call the get function from Hibernate that get the DTO class type and the wanted object id
+		ExampleDto profile = (ExampleDto)session.get(ExampleDto.class, id); // Call the get function from Hibernate that get the DTO class type and the wanted object id
 		session.getTransaction().commit();
 		session.close();
 		
 		return profile;
 	}
 	
-	public void delete(ExamlpleDto profileDto) {
+	public void delete(ExampleDto profileDto) {
 		Session session = hibernate.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.delete(profileDto); //Simply delete the object in database using the DTO id
@@ -88,14 +88,14 @@ public class ExampleDao extends AbstractDao {
 		session.close();
 	}
 	
-	public List<ExamlpleDto> selectByMultipleFilter(String[] filters) {
+	public List<ExampleDto> selectByMultipleFilter(String[] filters) {
 		Session session = hibernate.getSessionFactory().openSession();
 		session.beginTransaction();
 		String seperatedSkills = StringUtils.join(filters, "&"); //concat all filters with the '&' for REGEXP search in database
 		SQLQuery query = session.createSQLQuery("SELECT * FROM profils WHERE skills REGEXP :skills"); // Create a SQLquery (because REGEXP is not supported by HQL)
 		query.setParameter("skills", seperatedSkills);
-		query.addEntity(ExamlpleDto.class); // I don't remember why there is this line...
-		List<ExamlpleDto> result = query.list();
+		query.addEntity(ExampleDto.class); // I don't remember why there is this line...
+		List<ExampleDto> result = query.list();
 		session.getTransaction().commit();
 		session.close();
 		

@@ -5,7 +5,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
-import fr.rentaraclette.dto.ExamlpleDto;
+import fr.rentaraclette.dto.ExampleDto;
 
 public class DatabaseInitializer {
 	
@@ -34,7 +34,7 @@ public class DatabaseInitializer {
 		serviceRegistry = new ServiceRegistryBuilder().applySettings(cfg.getProperties()).buildServiceRegistry();
 		sessionFactory = cfg
         .addPackage("fr.rentaraclette.dto")
-        .addAnnotatedClass(ExamlpleDto.class)
+        .addAnnotatedClass(ExampleDto.class)
         // add other DTO here
         .buildSessionFactory(serviceRegistry);
 	}
