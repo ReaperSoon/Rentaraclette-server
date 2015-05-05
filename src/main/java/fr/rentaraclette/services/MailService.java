@@ -43,11 +43,12 @@ public class MailService extends AbstractService {
 
 			SOAPBody body = request.getSOAPBody();
 
-			List<String> list = new ArrayList<String>();
-			list.add("to");
-			list.add("subject");
-			list.add("content");
-	        for(String tagName : list){
+			List<String> nodeTagNames = new ArrayList<String>();
+			nodeTagNames.add(Emailer.SOAP_TO);
+			nodeTagNames.add(Emailer.SOAP_SUBJECT);
+			nodeTagNames.add(Emailer.SOAP_CONTENT);
+			
+	        for(String tagName : nodeTagNames){
 	            NodeList nodeList = body.getElementsByTagName(tagName);
 	            int length = nodeList.getLength();
 	            Node node;
@@ -61,10 +62,10 @@ public class MailService extends AbstractService {
 	                	content = node.getTextContent();
 	            }
 	        }
+	        nodeTagNames.clear();
 
 			if (to != null && subject != null && content != null) {
 				Emailer.getInstance().sendEmail(to, subject, content);
-				System.out.println("Email sent");
 			} else {
 				// Error SOAP
 			}
