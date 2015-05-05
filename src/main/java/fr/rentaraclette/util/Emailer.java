@@ -22,6 +22,10 @@ public class Emailer extends Thread {
 	private String 					to;
 	private String 					subject;
 	private String 					body;
+	
+	public static final String		SOAP_TO = "to";
+	public static final String		SOAP_SUBJECT = "subject";
+	public static final String		SOAP_CONTENT = "content";
 
 	public static void main(String... aArguments ){
 		Emailer emailer = Emailer.getInstance();
