@@ -65,18 +65,18 @@ public class Messages extends HttpServlet {
 				      <subject>Mail subject</subject>
 				      <mailType>rent-confirmation</mailType>
 				      <variables>
-				        <announce.title></announce.title>
-				        <announce.url></announce.url>
-				        <constumer.gender></constumer.gender>
-				        <constumer.name></constumer.name>
-				        <renter.address></renter.address>
-				        <renter.gender></renter.gender>
-				        <renter.message></renter.message>
-				        <renter.name></renter.name>
-				        <reservation.date></reservation.date>
-				        <reservation.duration></reservation.duration>
-				        <reservation.handle></reservation.handle>
-				        <reservation.time></reservation.time>
+				        <announce.title>Raclette</announce.title>
+				        <announce.url>www.bing.com</announce.url>
+				        <constumer.gender>Mister</constumer.gender>
+				        <constumer.name>Bob</constumer.name>
+				        <renter.address>2135 Street, Beijing</renter.address>
+				        <renter.gender>Miss</renter.gender>
+				        <renter.message>Hello</renter.message>
+				        <renter.name>Ginette</renter.name>
+				        <reservation.date>16/05/2015</reservation.date>
+				        <reservation.duration>2 days</reservation.duration>
+				        <reservation.handle>454156845</reservation.handle>
+				        <reservation.time>11:00am</reservation.time>
 				      </variables>
 				    </mail>
 				  </soapenv:Body>

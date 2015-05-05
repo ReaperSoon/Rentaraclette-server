@@ -52,7 +52,7 @@ public class MailService extends AbstractService {
 					nodeList = node.getChildNodes();
 					for (int j = 0; j < nodeList.getLength(); j++) {
 						node = nodeList.item(j);
-						System.out.println(node.getLocalName() + ":" + node.getTextContent());
+						//System.out.println(node.getLocalName() + ":" + node.getTextContent());
 						if (Emailer.SOAP_TO.equals(node.getLocalName()))
 							to = node.getTextContent();
 						else if (Emailer.SOAP_SUBJECT.equals(node.getLocalName()))
@@ -63,7 +63,7 @@ public class MailService extends AbstractService {
 							nodeList = node.getChildNodes();
 							for (int k = 0; k < nodeList.getLength(); k++) {
 								node = nodeList.item(k);
-								System.out.println(node.getLocalName() + ":" + node.getTextContent());
+								//System.out.println(node.getLocalName() + ":" + node.getTextContent());
 								vars.put(node.getLocalName(), node.getTextContent());
 							}
 						}
