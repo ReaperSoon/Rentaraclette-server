@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
-import javax.mail.search.ReceivedDateTerm;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,7 +25,7 @@ import fr.rentaraclette.util.Util;
 /**
  * Servlet implementation class Services
  */
-@WebServlet("/messages/*")
+@WebServlet("/messages")
 public class Messages extends HttpServlet {
 	private static final long 	serialVersionUID = 1L;
 	private ServicesLoader 		servicesLoader = ServicesLoader.getInstance();
@@ -55,22 +54,21 @@ public class Messages extends HttpServlet {
 			Logger.log(Logger.LOG, getClientIpAddr(request) + " ask for service " + className + "." + methodeName);
 
 			try {
-				/* Reading the received text from request */				
+				/* Reading the received text from request */
 				String received = getReceivedText(request);
-				
-				//System.out.println(received);
 
 				/* Create Object[] to give to the invoked method as argument (Object[] class is mandatoty by the fucking invoke method) */
 				/*
-				<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+				<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://www.talend.org/service/">
 					<soapenv:Header>
-					</soapenv:Header>
+					<soapenv:Header/>
 					<soapenv:Body>
-						<mail>
-          					<to>julien.beguier@epitech.eu</to>
-          					<subject>Mail subject</subject>
+						<ser:Mail>
+							<to>ducon@lesoapcdlamerde.com;...</to>
+							<from>nous@rentaraclette.fr</from>
+							<subject>Mail subject</subject>
 							<content>Mail content</content>
-      					</mail>
+						</ser:Mail>
 					</soapenv:Body>
 				</soapenv:Envelope>
 				 */
