@@ -12,7 +12,6 @@ import java.util.Set;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -57,7 +56,7 @@ public class Emailer extends Thread {
 		args.put("renter.address", "123 rue bidon, 123456 VilleDeMerde");
 		args.put("renter.message", "Please us it carefully, don't put your dick inside...");
 
-		emailer.sendEmail("julien.beguier@epitech.eu", "HtmlTest", "rent-confirmation", args);
+		emailer.sendEmail("cohensteve@hotmail.fr", "Interpreted?", "rent-confirmation", args);
 	}
 
 	private Emailer() {
@@ -88,17 +87,17 @@ public class Emailer extends Thread {
 	@Override
 	public void run() {
 		Message msg = new MimeMessage(session);
-		try {
-			msg.setHeader("Content-type", "text/html; utf-8");
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			msg.setHeader("Content-type", "text/html; utf-8");
+//		} catch (MessagingException e) {
+//			e.printStackTrace();
+//		}
 		try {
 			msg.setFrom(new InternetAddress(from));
-			msg.setRecipient(Message.RecipientType.TO, 
-					new InternetAddress(to));
+			msg.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
 			msg.setSubject(subject);
-			msg.setText(body);
+//			msg.setText(body);
+			msg.setContent(body, "text/html; charset=utf-8");
 			Transport.send(msg);
 			Logger.info("Email was sent!");
 		}
