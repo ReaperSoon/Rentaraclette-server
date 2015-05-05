@@ -15,7 +15,4 @@
 	<listener>
 		<listener-class>fr.rentaraclette.rpc.ServicesLoader</listener-class>
 	</listener>
-	<listener>
-		<listener-class>fr.rentaraclette.servlets.Services</listener-class>
-	</listener>
 </web-app>

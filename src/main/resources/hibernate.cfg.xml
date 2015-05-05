@@ -24,7 +24,7 @@
 		<!-- Database connection settings -->
 		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="connection.url">jdbc:mysql://127.0.0.1:3306/adopt_a_developer</property>
+		<property name="connection.url">jdbc:mysql://127.0.0.1:3306/rentaraclette</property>
 		<property name="connection.username">root</property>
 		<property name="connection.password"></property>
 		<property name="show_sql">true</property>

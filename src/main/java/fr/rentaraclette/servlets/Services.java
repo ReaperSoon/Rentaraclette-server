@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
-import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,7 +24,7 @@ import fr.rentaraclette.util.Logger;
  * Servlet implementation class Services
  */
 @WebServlet("/services/*")
-public class Services extends HttpServlet implements javax.servlet.ServletContextListener {
+public class Services extends HttpServlet {
 	private static final long 	serialVersionUID = 1L;
 	private ServicesLoader 		servicesLoader = ServicesLoader.getInstance();
 
@@ -39,6 +38,7 @@ public class Services extends HttpServlet implements javax.servlet.ServletContex
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//For page direct access, write on response.getWriter();
+		response.getWriter().println("<p>Salut tout le monde!</p>");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -141,15 +141,5 @@ public class Services extends HttpServlet implements javax.servlet.ServletContex
 			ip = request.getRemoteAddr();  
 		}  
 		return ip;  
-	}
-	
-	@Override
-	public void contextDestroyed(ServletContextEvent arg0) {
-		
-	}
-
-	@Override
-	public void contextInitialized(ServletContextEvent arg0) {
-		initialize();
 	}
 }
