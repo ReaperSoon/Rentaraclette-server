@@ -1,5 +1,6 @@
 package fr.rentaraclette.util;
 
+import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -31,11 +32,7 @@ public class Emailer extends Thread {
 		Emailer emailer = Emailer.getInstance();
 		//the domains of these email addresses should be valid,
 		//or the example will fail:
-		emailer.sendEmail(
-				"cohensteve@hotmail.fr",
-				"Testing 1-2-3",
-				"blah blah blah"
-				);
+		emailer.sendEmail("cohensteve@hotmail.fr", "HtmlTest", "email-template", null);
 	}
 
 	private Emailer() {
@@ -84,11 +81,16 @@ public class Emailer extends Thread {
 	/**
 	 * Send a single email.
 	 */
-	public void sendEmail(String aToEmailAddr, String aSubject, String aBody){
-		to = aToEmailAddr;
-        subject = aSubject;
-        body = aBody;
+	public void sendEmail(String toEmail, String emailSubject, String mailId, Map<String, String> args){
+		to = toEmail;
+        subject = emailSubject;
+        body = getEmailDataAndUpdate(mailId, args);;
 		this.start();
+	}
+
+	private String getEmailDataAndUpdate(String mailId, Map<String, String> args) {
+//		String email
+		return "bite";
 	}
 
 	public class SmtpAuthenticator extends Authenticator {
