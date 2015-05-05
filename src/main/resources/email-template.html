@@ -1,0 +1,185 @@
+<html>
+<head>
+<style type="text/css">
+
+body {
+   margin: 0;
+   padding: 0;
+   height: 100%;
+}
+
+#container {
+   min-height: 100%;
+   position: relative;
+}
+
+#body {
+	padding: 10px;
+	padding-top: 30px;
+	padding-bottom: 70px;
+}
+
+#header {
+	width: 100%;
+	height: 300px;
+	background-image:
+		url('http://www.expertentesten.de/wp-content/header-images/Header_Experten_Testen_Raclette.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+#title {
+	text-align: center;
+	font-size: 90px;
+	padding-top: 111px;
+	color: white;
+}
+
+#summary_img {
+	width: 100%;
+	height: 300px;
+	background-position-x: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+#summary {
+	overflow: hidden;
+}
+
+#reservation_detail {
+	width: 50%;
+	float: left;
+}
+
+#renter_detail {
+	width: 50%;
+	float: left;
+}
+
+
+#reservation_detail td, #renter_detail td {
+	padding: 5px;
+}
+
+#reservation_detail table, #renter_detail table {
+	width: 100%;
+}
+
+#footer {
+	bottom: 0;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+}
+
+#footer #facebook {
+	background-image:
+		url('https://cdn1.iconfinder.com/data/icons/logotypes/32/square-facebook-48.png');
+	height: 48px;
+	width: 48px;
+	display: inline-block;
+}
+
+#footer #twitter {
+	background-image:
+		url('https://cdn1.iconfinder.com/data/icons/logotypes/32/square-twitter-48.png');
+	height: 48px;
+	width: 48px;
+	display: inline-block;
+}
+</style>
+</head>
+
+<body>
+	<div id="container">
+		<div id="header">
+			<div id="title">
+				<p>RentaRaclette</p>
+			</div>
+		</div>
+		<div id="body">
+			<div id="summary_img"
+				style="background-image: url('http://upload.wikimedia.org/wikipedia/commons/7/7f/Raclette2.jpg');"></div>
+			<div id="confirmation">
+				<p>Dear [[constumer.gender]] [[constumer.name]],</p>
+				<p>Thanks for choosing RentaRaclette! It's our pleasure to
+					confirm the following reservation. Please advise us for any
+					modification about your reservation at
+					reservation@rentaraclette.com or by calling 555-555-5555.</p>
+			</div>
+			<div id="summary">
+				<div id="reservation_detail">
+					<table>
+						<tbody>
+							<tr>
+								<td colspan="2" style="background-color: rgb(204, 204, 204);">
+									RESERVATION DETAILS</td>
+							</tr>
+							<tr>
+								<td>Reservation number</td>
+								<td>[[reservation.handle]]</td>
+							</tr>
+							<tr>
+								<td style="background-color: rgb(230, 230, 230);">Your name</td>
+								<td style="background-color: rgb(230, 230, 230);">[[constumer.gender]]
+									[[constumer.name]]</td>
+							</tr>
+							<tr>
+								<td>Date of meeting</td>
+								<td>[[reservation.date]] [[reservation.time]]</td>
+							</tr>
+							<tr>
+								<td style="background-color: rgb(230, 230, 230);">Duration
+									of rent</td>
+								<td style="background-color: rgb(230, 230, 230);">[[reservation.duration]]</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="renter_detail">
+					<table>
+						<tbody>
+							<tr>
+								<td colspan="2" style="background-color: rgb(204, 204, 204);">
+									RENTER DETAILS</td>
+							</tr>
+							<tr>
+								<td>Renter name</td>
+								<td>[[renter.gender]] [[renter.name]]</td>
+							</tr>
+							<tr>
+								<td style="background-color: rgb(230, 230, 230);">Announce</td>
+								<td style="background-color: rgb(230, 230, 230);"><a
+									href="[[announce.url]]]">[[announce.title]]</a></td>
+							</tr>
+							<tr>
+								<td>Renter address</td>
+								<td>[[renter.address]]</td>
+							</tr>
+							<tr>
+								<td style="background-color: rgb(230, 230, 230);">Message
+									of renter</td>
+								<td style="background-color: rgb(230, 230, 230);">[[renter.message]]</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+			<div id="facebook"></div>
+			<div id="twitter"></div>
+			<div id="copyright">Copyright 2015 Rentaraclette.com</div>
+		</div>
+	</div>
+</body>
+</html>
