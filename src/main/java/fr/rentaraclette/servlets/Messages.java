@@ -12,9 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.soap.SOAPMessage;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import fr.rentaraclette.rpc.RpcObject;
 import fr.rentaraclette.rpc.ServiceException;
 import fr.rentaraclette.rpc.ServicesLoader;
@@ -64,7 +61,7 @@ public class Messages extends HttpServlet {
 					<soapenv:Header/>
 					<soapenv:Body>
 						<ser:Mail>
-							<to>ducon@lesoapcdlamerde.com;...</to>
+							<to>ducon@lesoapcdlamerde.com</to>
 							<from>nous@rentaraclette.fr</from>
 							<subject>Mail subject</subject>
 							<content>Mail content</content>
