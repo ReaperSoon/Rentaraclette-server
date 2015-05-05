@@ -1,7 +1,16 @@
 package fr.rentaraclette.util;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.StringWriter;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -89,8 +98,29 @@ public class Emailer extends Thread {
 	}
 
 	private String getEmailDataAndUpdate(String mailId, Map<String, String> args) {
-//		String email
-		return "bite";
+		String emailStr = "";
+		try {
+		InputStream is = Emailer.class.getResourceAsStream("/emailtemplates/" + mailId + ".html");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+	    StringBuilder sb = new StringBuilder();
+	    String line;
+			while ((line = reader.readLine()) != null) {
+			    sb.append(line);
+			}
+	    emailStr = sb.toString();
+		
+		Set<String> keys = args.keySet();
+		Iterator<String> it = keys.iterator();
+		while (it.hasNext()) {
+			String key = it.next();
+			String value = args.get(key);
+			emailStr = emailStr.replaceAll("[[" + key + "]]", value);
+		}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return emailStr;
 	}
 
 	public class SmtpAuthenticator extends Authenticator {
