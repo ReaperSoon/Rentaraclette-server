@@ -1,5 +1,8 @@
 package fr.rentaraclette.services;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
@@ -36,7 +39,8 @@ public class MailService extends AbstractService {
 		try {
 			String to = null;
 			String subject = null;
-			String content = null;
+			String mailType = null;
+			Map<String, String> vars = new HashMap<String, String>();
 
 			SOAPBody body = request.getSOAPBody();
 			NodeList nodeList = body.getChildNodes();
@@ -53,15 +57,23 @@ public class MailService extends AbstractService {
 							to = node.getTextContent();
 						else if (Emailer.SOAP_SUBJECT.equals(node.getLocalName()))
 							subject = node.getTextContent();
-						else if (Emailer.SOAP_CONTENT.equals(node.getLocalName()))
-							content = node.getTextContent();
+						else if (Emailer.SOAP_MAILTYPE.equals(node.getLocalName()))
+							mailType = node.getTextContent();
+						else if (Emailer.SOAP_VARIABLES.equals(node.getLocalName())) {
+							nodeList = node.getChildNodes();
+							for (int k = 0; k < nodeList.getLength(); k++) {
+								node = nodeList.item(k);
+								System.out.println(node.getLocalName() + ":" + node.getTextContent());
+								vars.put(node.getLocalName(), node.getTextContent());
+							}
+						}
 					}
 					break;
 				}
 			}
 
-			if (to != null && subject != null && content != null) {
-				Emailer.getInstance().sendEmail(to, subject, content, null);
+			if (to != null && subject != null && mailType != null) {
+				Emailer.getInstance().sendEmail(to, subject, mailType, vars);
 			} else {
 				// Error SOAP
 			}

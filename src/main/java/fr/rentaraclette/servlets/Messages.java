@@ -56,17 +56,30 @@ public class Messages extends HttpServlet {
 
 				/* Create Object[] to give to the invoked method as argument (Object[] class is mandatoty by the fucking invoke method) */
 				/*
-				<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://www.talend.org/service/">
-					<soapenv:Header>
-					<soapenv:Header/>
-					<soapenv:Body>
-						<ser:Mail>
-							<to>ducon@lesoapcdlamerde.com</to>
-							<from>nous@rentaraclette.fr</from>
-							<subject>Mail subject</subject>
-							<content>Mail content</content>
-						</ser:Mail>
-					</soapenv:Body>
+				<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+				  <soapenv:Header>
+				  </soapenv:Header>
+				  <soapenv:Body>
+				    <mail>
+				      <to>julien.beguier@epitech.eu</to>
+				      <subject>Mail subject</subject>
+				      <mailType>rent-confirmation</mailType>
+				      <variables>
+				        <announce.title></announce.title>
+				        <announce.url></announce.url>
+				        <constumer.gender></constumer.gender>
+				        <constumer.name></constumer.name>
+				        <renter.address></renter.address>
+				        <renter.gender></renter.gender>
+				        <renter.message></renter.message>
+				        <renter.name></renter.name>
+				        <reservation.date></reservation.date>
+				        <reservation.duration></reservation.duration>
+				        <reservation.handle></reservation.handle>
+				        <reservation.time></reservation.time>
+				      </variables>
+				    </mail>
+				  </soapenv:Body>
 				</soapenv:Envelope>
 				 */
 
@@ -90,7 +103,7 @@ public class Messages extends HttpServlet {
 
 				/* Invoke the service and get the result (Usualy a JSONObject or null) */
 				method.invoke(service, serviceArgs);
-				
+
 				out.println("{\"info\":{\"message\":\"email sent successfully\"}}");
 
 			} catch (ServiceException e) {

@@ -36,7 +36,8 @@ public class Emailer extends Thread {
 	public static final String		SOAP_MAIL = "mail";
 	public static final String		SOAP_TO = "to";
 	public static final String		SOAP_SUBJECT = "subject";
-	public static final String		SOAP_CONTENT = "content";
+	public static final String		SOAP_MAILTYPE = "mailType";
+	public static final String		SOAP_VARIABLES = "variables";	
 
 	public static void main(String... aArguments ){
 		Emailer emailer = Emailer.getInstance();
