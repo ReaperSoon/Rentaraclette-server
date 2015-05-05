@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.soap.SOAPMessage;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,6 +20,7 @@ import fr.rentaraclette.rpc.ServiceException;
 import fr.rentaraclette.rpc.ServicesLoader;
 import fr.rentaraclette.services.AbstractService;
 import fr.rentaraclette.util.Logger;
+import fr.rentaraclette.util.Util;
 
 /**
  * Servlet implementation class Services
@@ -26,20 +28,84 @@ import fr.rentaraclette.util.Logger;
 @WebServlet("/messages")
 public class Messages extends HttpServlet {
 	private static final long 	serialVersionUID = 1L;
+	private ServicesLoader 		servicesLoader = ServicesLoader.getInstance();
 
 	public Messages() {
 		super();
 	}
-	
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.getWriter().println("<p>Salut tout le monde!</p>");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String msg = getReceivedText(request);
+		/* Setting response context */
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+
+		/* Get the request arguments (http://mywebsite.com/services/<className>/<functionName>) */
+		String[] args = request.getRequestURI().substring(request.getContextPath().length()+1).split("/");
+
+		/* Check if there is almost 3 arguments (services/<className>/<functionName>) */
+		if (args.length >= 3) {
+			String className = args[1];
+			String methodeName = args[2];
+			Logger.log(Logger.LOG, getClientIpAddr(request) + " ask for service " + className + "." + methodeName);
+
+			try {
+				/* Reading the received text from request */
+				String received = getReceivedText(request);
+
+				/* Create Object[] to give to the invoked method as argument (Object[] class is mandatoty by the fucking invoke method) */
+				/*
+				<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://www.talend.org/service/">
+					<soapenv:Header>
+					<soapenv:Header/>
+					<soapenv:Body>
+						<ser:Mail>
+							<to>ducon@lesoapcdlamerde.com;...</to>
+							<from>nous@rentaraclette.fr</from>
+							<subject>Mail subject</subject>
+							<content>Mail content</content>
+						</ser:Mail>
+					</soapenv:Body>
+				</soapenv:Envelope>
+				 */
+
+				SOAPMessage obj = Util.getSoapMessageFromString(received);
+				Object[] serviceArgs = new Object[1];
+				serviceArgs[0] = obj;
+
+				/* 
+				 * Get the RpcObject representing the service in the serviceLoader (get it with the key "className.methodName") 
+				 * The RpcObject contains the service class as AbstractService and the Function of the specific service
+				 */
+				RpcObject serviceRpc = servicesLoader.getServices().get((className + "." + methodeName).toLowerCase());
+
+				/* If the service does not exist */
+				if (serviceRpc == null)
+					throw new ServiceException("Service not found : " + className + "." + methodeName);
+
+				/* Extract the AbstractService and the Method from the RpcObject */
+				AbstractService service = serviceRpc.getService();
+				Method method = service.getClass().getMethod(methodeName, SOAPMessage.class);
+
+				/* Invoke the service and get the result (Usualy a JSONObject or null) */
+				method.invoke(service, serviceArgs);
+				
+				out.println("{\"info\":{\"message\":\"ok\"}}");
+
+			} catch (ServiceException e) {
+				out.println("{\"error\":{\"message\":\"" + e.getMessage() + "\"}}");
+			} catch (Exception e) {
+				//out.println("{\"error\":{\"message\":\"" + "Internal error occured. Please contact website administrator." + "\"}}");
+				out.println("{\"error\":{\"message\":\"" + e.getCause() + "\"}}");
+				e.printStackTrace();
+			}
+		}
 	}
-	
+
 	/**
 	 * 
 	 * @param request
@@ -52,7 +118,7 @@ public class Messages extends HttpServlet {
 		BufferedReader reader = request.getReader();
 		while ((line = reader.readLine()) != null)
 			jb.append(line);
-		
+
 		return jb.toString();
 	}
 
