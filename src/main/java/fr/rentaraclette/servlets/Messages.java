@@ -22,7 +22,7 @@ import fr.rentaraclette.util.Util;
 /**
  * Servlet implementation class Services
  */
-@WebServlet("/messages")
+@WebServlet("/messages/*")
 public class Messages extends HttpServlet {
 	private static final long 	serialVersionUID = 1L;
 	private ServicesLoader 		servicesLoader = ServicesLoader.getInstance();
@@ -91,7 +91,7 @@ public class Messages extends HttpServlet {
 				/* Invoke the service and get the result (Usualy a JSONObject or null) */
 				method.invoke(service, serviceArgs);
 				
-				out.println("{\"info\":{\"message\":\"ok\"}}");
+				out.println("{\"info\":{\"message\":\"email sent successfully\"}}");
 
 			} catch (ServiceException e) {
 				out.println("{\"error\":{\"message\":\"" + e.getMessage() + "\"}}");

@@ -1,8 +1,5 @@
 package fr.rentaraclette.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
@@ -42,30 +39,29 @@ public class MailService extends AbstractService {
 			String content = null;
 
 			SOAPBody body = request.getSOAPBody();
+			NodeList nodeList = body.getChildNodes();
+			Node node;
 
-			List<String> nodeTagNames = new ArrayList<String>();
-			nodeTagNames.add(Emailer.SOAP_TO);
-			nodeTagNames.add(Emailer.SOAP_SUBJECT);
-			nodeTagNames.add(Emailer.SOAP_CONTENT);
-			
-	        for(String tagName : nodeTagNames){
-	            NodeList nodeList = body.getElementsByTagName(tagName);
-	            int length = nodeList.getLength();
-	            Node node;
-	            for (int i = 0; i < length; i++) {
-	                node = (Node) nodeList.item(i);
-	                if (Emailer.SOAP_TO.equals(node.getLocalName()))
-	                	to = node.getTextContent();
-	                else if (Emailer.SOAP_SUBJECT.equals(node.getLocalName()))
-	                	subject = node.getTextContent();
-	                else if (Emailer.SOAP_CONTENT.equals(node.getLocalName()))
-	                	content = node.getTextContent();
-	            }
-	        }
-	        nodeTagNames.clear();
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				node = nodeList.item(i);
+				if (Emailer.SOAP_MAIL.equals(node.getLocalName())) {
+					nodeList = node.getChildNodes();
+					for (int j = 0; j < nodeList.getLength(); j++) {
+						node = nodeList.item(j);
+						System.out.println(node.getLocalName() + ":" + node.getTextContent());
+						if (Emailer.SOAP_TO.equals(node.getLocalName()))
+							to = node.getTextContent();
+						else if (Emailer.SOAP_SUBJECT.equals(node.getLocalName()))
+							subject = node.getTextContent();
+						else if (Emailer.SOAP_CONTENT.equals(node.getLocalName()))
+							content = node.getTextContent();
+					}
+					break;
+				}
+			}
 
 			if (to != null && subject != null && content != null) {
-				Emailer.getInstance().sendEmail(to, subject, content);
+				Emailer.getInstance().sendEmail(to, subject, content, null);
 			} else {
 				// Error SOAP
 			}

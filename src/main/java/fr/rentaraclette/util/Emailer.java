@@ -24,6 +24,7 @@ public class Emailer extends Thread {
 	private String 					subject;
 	private String 					body;
 	
+	public static final String		SOAP_MAIL = "mail";
 	public static final String		SOAP_TO = "to";
 	public static final String		SOAP_SUBJECT = "subject";
 	public static final String		SOAP_CONTENT = "content";
