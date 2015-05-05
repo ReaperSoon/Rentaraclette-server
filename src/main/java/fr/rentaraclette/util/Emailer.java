@@ -18,7 +18,7 @@ public class Emailer extends Thread {
 	private SmtpAuthenticator 		authentication;
 	private Session 				session;
 
-	private String 					from = "RentaRaclette";
+	private String 					from = "rentaraclette@yahoo.com";
 	private String 					to;
 	private String 					subject;
 	private String 					body;
@@ -40,12 +40,14 @@ public class Emailer extends Thread {
 
         //To use TLS
         props.put("mail.smtp.auth", "true"); 
-//        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.starttls.enable", "true");
         //To use SSL
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
+        
+        props.put("mail.debug", "true");
 
         authentication = new SmtpAuthenticator();
         session  = Session.getDefaultInstance(props, authentication);
@@ -87,7 +89,6 @@ public class Emailer extends Thread {
 
 	public class SmtpAuthenticator extends Authenticator {
 		public SmtpAuthenticator() {
-
 		    super();
 		}
 
